@@ -1,0 +1,27 @@
+# terminal-shell — run shell commands from the chat.
+#
+# Send a command on cmd.exec from the chat (pick the topic from the
+# dropdown). Output / stderr lands on cmd.output which the chat is
+# subscribed to. Whitelist is intentionally tight — extend
+# allowed_commands in the config override if you want more verbs.
+
+nodes:
+  - type: chat
+    name: human
+    description: "Chat UI — pick cmd.exec from the dropdown to run a command."
+    priority: 5
+    position: { x: 100, y: 300 }
+    subscriptions:
+      - topic: "cmd.output"
+
+  - type: terminal
+    name: shell
+    description: "Whitelisted shell. Reads cmd.exec, replies on cmd.output."
+    priority: 3
+    position: { x: 500, y: 300 }
+    subscriptions:
+      - topic: "cmd.exec"
+    config_overrides:
+      response_topic: "cmd.output"
+      timeout_ms: 15000
+      allowed_commands: ["ls", "cat", "head", "tail", "wc", "date", "whoami", "df", "uptime", "git", "find", "grep"]

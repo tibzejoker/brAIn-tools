@@ -1,0 +1,25 @@
+# calc-quick — evaluate a Python expression from the chat.
+#
+# Demonstrates the multi-language node pattern: calc-py is a Python
+# web-transport node (the framework talks to it over a long-lived
+# WebSocket). Send {"expression": "<python expression>"} on
+# calc.request from the chat dropdown — the result comes back on
+# calc.result.
+#
+# Requires the CALC_PY_TOKEN env var if calc-py was generated with
+# bearer auth; the seed itself doesn't touch credentials.
+
+nodes:
+  - type: chat
+    name: human
+    description: "Chat UI — pick calc.request from the dropdown, send a Python expression."
+    priority: 5
+    position: { x: 100, y: 300 }
+    subscriptions:
+      - topic: "calc.result"
+
+  - type: calc-py
+    name: calc
+    description: "Python evaluator over WebSocket. Computes math expressions."
+    priority: 1
+    position: { x: 500, y: 300 }
