@@ -27,7 +27,17 @@ export const handler: NodeHandler = async (ctx) => {
   const maxOutput = (overrides.max_output as number | undefined) ?? 10000;
 
   for (const msg of ctx.messages) {
-    const command = (msg.payload as TextPayload).content.trim();
+    const content = (msg.payload as TextPayload).content.trim();
+    // Two accepted shapes: the declared port schema {"command": "…"} (what
+    // the brain's typed terminal_exec meta-tool publishes) and a raw
+    // command-line string (legacy callers / hand-published messages).
+    let command = content;
+    if (content.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(content) as { command?: unknown };
+        if (typeof parsed.command === "string") command = parsed.command.trim();
+      } catch { /* not JSON — treat as a raw command line */ }
+    }
     if (!command) continue;
 
     if (!isAllowed(command, allowedCommands)) {
