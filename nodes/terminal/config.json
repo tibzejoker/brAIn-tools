@@ -9,6 +9,23 @@
   "default_authority": 1,
   "default_priority": 3,
   "ports": {
+    "inputs": {
+      "terminal.exec": {
+        "description": "Run a shell command on this node's host. Publishes {command, exit_code, stdout, stderr} on terminal.output.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "string",
+              "description": "The full shell command line to execute."
+            }
+          },
+          "required": [
+            "command"
+          ]
+        }
+      }
+    },
     "outputs": {
       "terminal.output": {
         "description": "terminal.output"
@@ -16,6 +33,11 @@
     }
   },
   "default_port_bindings": {
+    "inputs": {
+      "terminal.exec": [
+        "terminal.exec"
+      ]
+    },
     "outputs": {
       "terminal.output": [
         "terminal.output"
