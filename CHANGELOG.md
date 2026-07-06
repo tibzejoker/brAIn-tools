@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/tibzejoker/brAIn-tools/compare/v1.0.0...v1.1.0) (2026-07-06)
+
+
+### Features
+
+* **terminal:** declare the exec input port so the brain gets a typed shell tool ([7875d36](https://github.com/tibzejoker/brAIn-tools/commit/7875d36a882b7f891aad18d8f8306f105735631d))
+
 ## 1.0.0 (2026-06-01)
 
 
